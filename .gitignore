@@ -3,3 +3,5 @@ env/
 db.sqlite3
 text.doc
 docker_files/
+*.pyc
+back_end/market/__pycache__/
