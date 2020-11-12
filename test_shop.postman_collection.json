@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "4d01e554-108d-4ab6-bb69-c9d6b3ab7041",
+		"name": "test_shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "q",
+							"type": "text"
+						},
+						{
+							"key": "second_name",
+							"value": "w",
+							"type": "text"
+						},
+						{
+							"key": "middle_name",
+							"value": "e",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "qwer",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/auth/users/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logining, getting token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/auth/token/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"token",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET owner cart",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/cart/?user_id={{user_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						""
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST product to cart",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/cart/?user_id={{user_id}}&prod_id=1&number=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						""
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "prod_id",
+							"value": "1"
+						},
+						{
+							"key": "number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST print order",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "354177aaf6029f9372ecbf59bc219f41820b37ed",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/print_order/?order_id=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"print_order",
+						""
+					],
+					"query": [
+						{
+							"key": "order_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "61c7f419-b6b3-45f6-a21b-7c8a15f7e502",
+			"key": "email",
+			"value": "qq@q.ru"
+		},
+		{
+			"id": "a2424447-750d-43c3-940f-7cafdfaf8c0b",
+			"key": "password",
+			"value": "QQWWeerr"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

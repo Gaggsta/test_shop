@@ -6,124 +6,124 @@ from rest_framework.test import APITestCase
 from django.urls import reverse
 
 
-# class SigninTest(TestCase):
+class SigninTest(TestCase):
 
-#     def setUp(self):
-#         self.user = get_user_model().objects.create_user(
-#             email='test@test.com', password='Testtest12', first_name='first_name',
-#             second_name='second_name', middle_name='middle_name', address='address',
-#             role='("менеджер", "Менеджер")')
-#         self.user.save()
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            email='test@test.com', password='Testtest12', first_name='first_name',
+            second_name='second_name', middle_name='middle_name', address='address',
+            role='("менеджер", "Менеджер")')
+        self.user.save()
 
-#     def tearDown(self):
-#         self.user.delete()
+    def tearDown(self):
+        self.user.delete()
 
-#     def test_correct(self):
-#         user = authenticate(email='test@test.com', password='Testtest12')
-#         self.assertTrue((user is not None) and user.is_authenticated)
+    def test_correct(self):
+        user = authenticate(email='test@test.com', password='Testtest12')
+        self.assertTrue((user is not None) and user.is_authenticated)
 
-#     def test_wrong_username(self):
-#         user = authenticate(username='wrong', password='Testtest12')
-#         self.assertFalse(user is not None and user.is_authenticated)
+    def test_wrong_username(self):
+        user = authenticate(username='wrong', password='Testtest12')
+        self.assertFalse(user is not None and user.is_authenticated)
 
-#     def test_wrong_pssword(self):
-#         user = authenticate(username='Testtest12', password='wrong')
-#         self.assertFalse(user is not None and user.is_authenticated)
-
-
-# class ProductsTest(TestCase):
-
-#     def setUp(self):
-#         self.product = Products.objects.create(
-#             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
-
-#     def tearDown(self):
-#         self.product.delete()
-
-#     def test_correct(self):
-#         prod = Products.objects.get(
-#             vendor_code='PT1123', name='Testtest12')
-#         self.assertTrue((prod is not None) and (
-#             prod.purchase_price == 1) and (prod.sale_price == 2))
+    def test_wrong_pssword(self):
+        user = authenticate(username='Testtest12', password='wrong')
+        self.assertFalse(user is not None and user.is_authenticated)
 
 
-# class OrderTest(TestCase):
+class ProductsTest(TestCase):
 
-#     def setUp(self):
-#         self.user = get_user_model().objects.create_user(
-#             email='test@test.com', password='Testtest12', first_name='first_name',
-#             second_name='second_name', middle_name='middle_name', address='address',
-#             role='("менеджер", "Менеджер")')
-#         self.user.save()
-#         self.product = Products.objects.create(
-#             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
-#         self.order = Order.objects.create()
-#         self.cart = Cart.objects.create(
-#             client=self.user, product=self.product, number=2, order=self.order)
+    def setUp(self):
+        self.product = Products.objects.create(
+            vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
 
-#     def tearDown(self):
-#         self.user.delete()
-#         self.product.delete()
-#         self.order.delete()
-#         self.cart.delete()
+    def tearDown(self):
+        self.product.delete()
 
-#     def test_correct(self):
-#         order = Order.objects.get(id=self.order.id)
-#         self.assertTrue((order is not None) and (
-#             order.client() == self.user) and (order.dest_address() == self.user.address) and (order.total() == 4))
+    def test_correct(self):
+        prod = Products.objects.get(
+            vendor_code='PT1123', name='Testtest12')
+        self.assertTrue((prod is not None) and (
+            prod.purchase_price == 1) and (prod.sale_price == 2))
 
 
-# class CartTest(TestCase):
+class OrderTest(TestCase):
 
-#     def setUp(self):
-#         self.user = get_user_model().objects.create_user(
-#             email='test@test.com', password='Testtest12', first_name='first_name',
-#             second_name='second_name', middle_name='middle_name', address='address',
-#             role='("менеджер", "Менеджер")')
-#         self.user.save()
-#         self.product = Products.objects.create(
-#             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
-#         self.cart = Cart.objects.create(
-#             client=self.user, product=self.product, number=2)
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            email='test@test.com', password='Testtest12', first_name='first_name',
+            second_name='second_name', middle_name='middle_name', address='address',
+            role='("менеджер", "Менеджер")')
+        self.user.save()
+        self.product = Products.objects.create(
+            vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
+        self.order = Order.objects.create()
+        self.cart = Cart.objects.create(
+            client=self.user, product=self.product, number=2, order=self.order)
 
-#     def tearDown(self):
-#         self.user.delete()
-#         self.product.delete()
-#         self.cart.delete()
+    def tearDown(self):
+        self.user.delete()
+        self.product.delete()
+        self.order.delete()
+        self.cart.delete()
 
-#     def test_correct(self):
-#         cart_prod = Cart.objects.get(client=self.user)
-#         self.assertTrue((
-#             cart_prod.product == self.product) and (cart_prod.number == 2)
-#             and (cart_prod.price() == 2) and (cart_prod.total() == 4))
+    def test_correct(self):
+        order = Order.objects.get(id=self.order.id)
+        self.assertTrue((order is not None) and (
+            order.client() == self.user) and (order.dest_address() == self.user.address) and (order.total() == 4))
 
 
-# class SigninAPITest(APITestCase):
+class CartTest(TestCase):
 
-#     def setUp(self):
-#         self.user = get_user_model().objects.create_user(
-#             email='test@test.com', password='Testtest12', first_name='first_name',
-#             second_name='second_name', middle_name='middle_name', address='address',
-#             role='("менеджер", "Менеджер")')
-#         self.user.save()
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            email='test@test.com', password='Testtest12', first_name='first_name',
+            second_name='second_name', middle_name='middle_name', address='address',
+            role='("менеджер", "Менеджер")')
+        self.user.save()
+        self.product = Products.objects.create(
+            vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
+        self.cart = Cart.objects.create(
+            client=self.user, product=self.product, number=2)
 
-#     def tearDown(self):
-#         self.user.delete()
+    def tearDown(self):
+        self.user.delete()
+        self.product.delete()
+        self.cart.delete()
 
-#     def test_correct(self):
-#         response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
-#                                     'email': 'test@test.com', 'password': 'Testtest12'})
-#         self.assertTrue(response.status_code == 200)
+    def test_correct(self):
+        cart_prod = Cart.objects.get(client=self.user)
+        self.assertTrue((
+            cart_prod.product == self.product) and (cart_prod.number == 2)
+            and (cart_prod.price() == 2) and (cart_prod.total() == 4))
 
-#     def test_wrong_username(self):
-#         response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
-#                                     'email': 'wrong@test.com', 'password': 'Testtest12'})
-#         self.assertTrue(response.status_code == 400)
 
-#     def test_wrong_pssword(self):
-#         response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
-#                                     'email': 'wrong@test.com', 'password': 'Testtest11'})
-#         self.assertTrue(response.status_code == 400)
+class SigninAPITest(APITestCase):
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            email='test@test.com', password='Testtest12', first_name='first_name',
+            second_name='second_name', middle_name='middle_name', address='address',
+            role='("менеджер", "Менеджер")')
+        self.user.save()
+
+    def tearDown(self):
+        self.user.delete()
+
+    def test_correct(self):
+        response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
+                                    'email': 'test@test.com', 'password': 'Testtest12'})
+        self.assertTrue(response.status_code == 200)
+
+    def test_wrong_username(self):
+        response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
+                                    'email': 'wrong@test.com', 'password': 'Testtest12'})
+        self.assertTrue(response.status_code == 400)
+
+    def test_wrong_pssword(self):
+        response = self.client.post('http://127.0.0.1:8000/auth/token/login/', {
+                                    'email': 'wrong@test.com', 'password': 'Testtest11'})
+        self.assertTrue(response.status_code == 400)
 
 
 class CartAPITest(APITestCase):
