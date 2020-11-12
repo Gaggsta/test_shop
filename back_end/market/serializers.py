@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cart, Profile
+from .models import Cart
 
 
 class CertSerializer(serializers.ModelSerializer):

@@ -1,39 +1,38 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.conf import settings
+from .managers import CustomUserManager
+from django.utils import timezone
 
 
-class Profile(models.Model):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     USER_ROLES = (
         ("клиент", "Клиент"), ("менеджер", "Менеджер")
     )
-    user_email = models.OneToOneField(
-        User, verbose_name='Эл. почта', on_delete=models.CASCADE)
-
+    email = models.EmailField('email', unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    first_name = models.CharField(
+        verbose_name='Имя', max_length=30, null=True)
+    second_name = models.CharField(
+        verbose_name='Фамилия', max_length=30, null=True)
     middle_name = models.CharField(
         verbose_name='Отчество', max_length=30, null=True)
     address = models.CharField(verbose_name='Адрес', max_length=500)
     role = models.CharField(verbose_name='Роль',
-                            max_length=8, choices=USER_ROLES, default=("Клиент", "клиент"))
-
-    def first_name(self):
-        return self.user_email.first_name
-    first_name.null = True
-    first_name.default = '-'
-    first_name.short_description = 'Имя'
-
-    def last_name(self):
-        return self.user_email.last_name
-    first_name.null = True
-    last_name.default = '-'
-    last_name.short_description = 'Фамилия'
+                            max_length=30, choices=USER_ROLES, default=("Клиент", "клиент"))
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
 
     def __str__(self):
-        return f'{self.user_email.first_name}  {self.user_email.last_name}'
+        return self.email
 
     class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
 
 class Products(models.Model):
@@ -54,12 +53,19 @@ class Products(models.Model):
 
 class Order(models.Model):
     def client(self):
-        cart = Cart.objects.filter(order=self)[0]
-        return cart.client
+        cart = Cart.objects.filter(order=self)
+        if cart:
+            return cart[0].client
+        else:
+            return "Empty"
 
     def dest_address(self):
-        cart = Cart.objects.filter(order=self)[0]
-        return cart.client.address
+        cart = Cart.objects.filter(order=self)
+        if cart:
+            return cart[0].client.address
+        else:
+            return "Empty"
+
     dest_address.short_description = 'Адрес доставки'
 
     def total(self):
@@ -82,7 +88,7 @@ class Order(models.Model):
 class Cart(models.Model):
     # Корзина: клиент, товар, количество, цена, сумма по строке.
     client = models.ForeignKey(
-        Profile, verbose_name='Покупатель', on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, verbose_name='Покупатель', on_delete=models.CASCADE)
     product = models.ForeignKey(
         Products, verbose_name='Товар', on_delete=models.CASCADE)
     number = models.PositiveIntegerField(
