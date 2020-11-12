@@ -1,19 +1,26 @@
 from django.contrib import admin
-from market.models import Account, Products, Cart
+from .models import Profile, Products, Cart, Order
 
 
-class AccountAdmin(admin.ModelAdmin):
-    list_display = ('user_email', 'first_name', 'last_name', 'address', 'role')
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user_email', 'first_name', 'last_name', 'middle_name',
+                    'address', 'role')
 
 
 class ProductsAdmin(admin.ModelAdmin):
-    list_display = ('vendor_code', 'name', 'purchase_price', 'sale_price')
+    list_display = ('id', 'vendor_code', 'name',
+                    'purchase_price', 'sale_price')
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('client', 'product', 'number', 'price', 'total')
+    list_display = ('client', 'product', 'number', 'price', 'total', 'order')
 
 
-admin.site.register(Account, AccountAdmin)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('client', 'dest_address', 'total')
+
+
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Products, ProductsAdmin)
 admin.site.register(Cart, CartAdmin)
+admin.site.register(Order, OrderAdmin)

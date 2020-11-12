@@ -2,3 +2,4 @@ env/
 .vscode
 db.sqlite3
 text.doc
+docker_files/

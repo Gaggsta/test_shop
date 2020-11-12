@@ -60,3 +60,5 @@
 Казачков Ян
 Руководитель отдела разработки ПО
 Компания СТАРТЕКС
+
+celery -A back_end worker --beat --scheduler django --loglevel=info
