@@ -12,7 +12,7 @@ class SigninTest(TestCase):
         self.user = get_user_model().objects.create_user(
             email='test@test.com', password='Testtest12', first_name='first_name',
             second_name='second_name', middle_name='middle_name', address='address',
-            role='("менеджер", "Менеджер")')
+            role="менеджер")
         self.user.save()
 
     def tearDown(self):
@@ -53,7 +53,7 @@ class OrderTest(TestCase):
         self.user = get_user_model().objects.create_user(
             email='test@test.com', password='Testtest12', first_name='first_name',
             second_name='second_name', middle_name='middle_name', address='address',
-            role='("менеджер", "Менеджер")')
+            role="менеджер")
         self.user.save()
         self.product = Products.objects.create(
             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
@@ -79,7 +79,7 @@ class CartTest(TestCase):
         self.user = get_user_model().objects.create_user(
             email='test@test.com', password='Testtest12', first_name='first_name',
             second_name='second_name', middle_name='middle_name', address='address',
-            role='("менеджер", "Менеджер")')
+            role="менеджер")
         self.user.save()
         self.product = Products.objects.create(
             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
@@ -104,7 +104,7 @@ class SigninAPITest(APITestCase):
         self.user = get_user_model().objects.create_user(
             email='test@test.com', password='Testtest12', first_name='first_name',
             second_name='second_name', middle_name='middle_name', address='address',
-            role='("менеджер", "Менеджер")')
+            role="менеджер")
         self.user.save()
 
     def tearDown(self):
@@ -132,12 +132,12 @@ class CartAPITest(APITestCase):
         self.manager = get_user_model().objects.create_user(
             email='test@test.com', password='Testtest12', first_name='first_name',
             second_name='second_name', middle_name='middle_name', address='address',
-            role='("менеджер", "Менеджер")')
+            role="менеджер")
         self.manager.save()
         self.user = get_user_model().objects.create_user(
             email='user@test.com', password='Usertest12', first_name='first_user',
             second_name='second_user', middle_name='middle_user', address='address',
-            role='("клиент", "Клиент")')
+            role="клиент")
         self.user.save()
         self.product = Products.objects.create(
             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
