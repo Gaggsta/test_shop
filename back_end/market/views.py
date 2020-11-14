@@ -33,7 +33,7 @@ class CartAPI(APIView):
             logger.warning(
                 f"{requester.id} {request.GET.get('user_id')} wrong format user_id")
             return HttpResponseBadRequest()
-        if requester.id == user.id or requester.role == '("менеджер", "Менеджер")':
+        if requester.id == user.id or requester.role == "менеджер":
             cart = Cart.objects.filter(
                 client=user).exclude(order__isnull=False)
             queryset = CertSerializer(instance=cart, many=True,)
@@ -66,7 +66,7 @@ class CartAPI(APIView):
             logger.warning(
                 f"{requester.id} {qd.get('user_id')} wrong format user_id")
             return HttpResponseBadRequest()
-        if requester.id == user.id or requester.role == '("менеджер", "Менеджер")':
+        if requester.id == user.id or requester.role == "менеджер":
             try:
                 prod_id = int(qd.get('prod_id'))
                 prod = Products.objects.get(id=prod_id)
@@ -113,23 +113,29 @@ class Order_printAPI(APIView):
         # я не знаю почему,
         # но у меня постман отправлял POST запросы,
         # а все данные были в request.GET
-
         if request.GET:
             qd = request.GET
         else:
             qd = request.POST
         requester = get_user_model().objects.get(email=request.user)
-        if requester.role == '("менеджер", "Менеджер")':
+        if requester.role == "менеджер":
             try:
+                print(requester)
                 order = Order.objects.get(
                     id=int(qd.get('order_id')))
             except:
                 logger.warning(
-                    f"{requester.id} {qd.get('user_id')} wrong format order_id")
+                    f"{requester.id} {qd.get('order_id')} wrong format order_id")
                 return HttpResponseBadRequest()
             html_content = f"<!DOCTYPE html><html><head><meta charset='utf-8'></head><body><p>Клиент: {order.client()}</p><p>Номер заказа: {order.id}</p><p>Адрес доставки: {order.dest_address()}</p><body></html>"
             if save_to_pdf.delay(html_content, order.id):
                 res = {"code": 200, "message": "Файл сохранен"}
                 return Response(data=res, status=200)
             else:
+                logger.warning(
+                    f"{requester.id} {qd.get('order_id')} something going wrong")
                 return HttpResponseServerError()
+        else:
+            logger.warning(
+                f"{requester.id} {qd.get('order_id')} permission_denied")
+            raise PermissionDenied()

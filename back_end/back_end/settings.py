@@ -84,22 +84,23 @@ LOGGING = {
             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
             'style': '{',
         },
-        'handlers': {
-            'file': {
-                'level': 'DEBUG',
-                'class': 'logging.FileHandler',
-                'filename': str(BASE_DIR / 'logs/debug.log',),
-                'formatter': 'full'
-            },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/debug.log',
+            'formatter': 'full'
         },
-        'loggers': {
-            'market': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
-                'propagate': True,
-            },
+    },
+    'loggers': {
+        'market': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
-    }
+    },
+
 }
 
 WSGI_APPLICATION = 'back_end.wsgi.application'
