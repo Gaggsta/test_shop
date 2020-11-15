@@ -39,6 +39,12 @@ class CartAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('client', 'dest_address', 'total')
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('client',)}
+         ),
+    )
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

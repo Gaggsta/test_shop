@@ -52,19 +52,11 @@ class Products(models.Model):
 
 
 class Order(models.Model):
-    def client(self):
-        cart = Cart.objects.filter(order=self)
-        if cart:
-            return cart[0].client
-        else:
-            return "Empty"
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Покупатель', on_delete=models.CASCADE)
 
     def dest_address(self):
-        cart = Cart.objects.filter(order=self)
-        if cart:
-            return cart[0].client.address
-        else:
-            return "Empty"
+        return self.client.address
 
     dest_address.short_description = 'Адрес доставки'
 
@@ -76,6 +68,15 @@ class Order(models.Model):
         return total_sum
     total.default = 0
     total.short_description = 'Сумма по заказу'
+
+    def save(self, *args, **kwargs):
+        super(Order, self).save(*args, **kwargs)
+        cart = Cart.objects.filter(
+            client=self.client).exclude(order__isnull=False)
+
+        for product in cart:
+            product.order = self
+            product.save()
 
     def __str__(self):
         return str(self.id)
@@ -110,6 +111,6 @@ class Cart(models.Model):
     total.short_description = 'Сумма по строке'
 
     class Meta:
-        unique_together = ('client', 'product')
+        unique_together = ('client', 'product', 'order')
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
