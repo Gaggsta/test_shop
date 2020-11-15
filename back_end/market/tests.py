@@ -57,7 +57,7 @@ class OrderTest(TestCase):
         self.user.save()
         self.product = Products.objects.create(
             vendor_code='PT1123', name='Testtest12', purchase_price=1, sale_price=2)
-        self.order = Order.objects.create()
+        self.order = Order.objects.create(client=self.user)
         self.cart = Cart.objects.create(
             client=self.user, product=self.product, number=2, order=self.order)
 
@@ -70,7 +70,7 @@ class OrderTest(TestCase):
     def test_correct(self):
         order = Order.objects.get(id=self.order.id)
         self.assertTrue((order is not None) and (
-            order.client() == self.user) and (order.dest_address() == self.user.address) and (order.total() == 4))
+            order.client == self.user) and (order.dest_address() == self.user.address) and (order.total() == 4))
 
 
 class CartTest(TestCase):
