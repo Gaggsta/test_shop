@@ -7,6 +7,19 @@
 	"item": [
 		{
 			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8dc3319-1e18-477f-9d3a-c223ecddd8f4",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable('user_id',data.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -66,6 +79,19 @@
 		},
 		{
 			"name": "Logining, getting token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "545949ed-035e-434b-9df0-a36783d3ad37",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable('token',data.auth_token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -99,6 +125,65 @@
 						"token",
 						"login",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST product to cart",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Token",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/cart/?user_id={{user_id}}&prod_id=1&number=2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						""
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user_id}}"
+						},
+						{
+							"key": "prod_id",
+							"value": "1"
+						},
+						{
+							"key": "number",
+							"value": "2"
+						}
 					]
 				}
 			},
@@ -156,7 +241,20 @@
 			"response": []
 		},
 		{
-			"name": "POST product to cart",
+			"name": "POST create order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1876a2ae-4f03-4a9f-8d7b-3b509b9d6f4c",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable('order_id',data.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "oauth2",
@@ -178,10 +276,10 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/cart/?user_id={{user_id}}&prod_id=1&number=1",
+					"raw": "http://127.0.0.1:8000/api/v1/create_order/?user_id={{user_id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -193,21 +291,13 @@
 					"path": [
 						"api",
 						"v1",
-						"cart",
+						"create_order",
 						""
 					],
 					"query": [
 						{
 							"key": "user_id",
 							"value": "{{user_id}}"
-						},
-						{
-							"key": "prod_id",
-							"value": "1"
-						},
-						{
-							"key": "number",
-							"value": "1"
 						}
 					]
 				}
@@ -215,14 +305,14 @@
 			"response": []
 		},
 		{
-			"name": "POST print order",
+			"name": "POST send order to print",
 			"request": {
 				"auth": {
 					"type": "oauth2",
 					"oauth2": [
 						{
 							"key": "accessToken",
-							"value": "354177aaf6029f9372ecbf59bc219f41820b37ed",
+							"value": "{{token}}",
 							"type": "string"
 						},
 						{
@@ -240,7 +330,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/print_order/?order_id=1",
+					"raw": "http://127.0.0.1:8000/api/v1/print_order/?order_id={{order_id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -258,7 +348,7 @@
 					"query": [
 						{
 							"key": "order_id",
-							"value": "1"
+							"value": "{{order_id}}"
 						}
 					]
 				}
@@ -268,12 +358,12 @@
 	],
 	"variable": [
 		{
-			"id": "61c7f419-b6b3-45f6-a21b-7c8a15f7e502",
+			"id": "bc7d59d1-a9d2-4f2b-8d44-cdd4a438e5ff",
 			"key": "email",
 			"value": "qq@q.ru"
 		},
 		{
-			"id": "a2424447-750d-43c3-940f-7cafdfaf8c0b",
+			"id": "9e87f240-1cff-4f53-a32a-ad909b099557",
 			"key": "password",
 			"value": "QQWWeerr"
 		}
